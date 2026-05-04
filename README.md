@@ -13,7 +13,7 @@ The application follows a specific scoring algorithm for points awarded per tran
 ## Technical Stack
 * **Java 8/17**
 * **Spring Boot 3.x**
-* **Spring Data JPA** (H2 In-Memory Database for local storage)
+* **Spring Data JPA** (H2 File Based Database for persistant storage)
 * **Maven** (Project Management)
 * **JUnit 5 & Mockito** (Testing)
 
@@ -67,3 +67,59 @@ src/main/java/CharterDemo/CustomerTransaction/
 ├── DTO/                    # Data Transfer Objects for API responses
 ├── GlobalExceptionHandler/ # Centralized error handling (CustomerTransactionControllerAdvice)
 └── util/                   # Custom exceptions and utilities
+
+## 🧪 Sample Test Data (Postman)
+You can use the following JSON payloads to populate your database via your POST endpoint:
+
+### Customer: John Doe
+```json
+{
+    "name": "John Doe",
+    "transactionId": "TXN-847675",
+    "transactionInDollar": 751,
+    "transactionDateAndTime": "24-03-2025 20:30:15"
+}
+
+{
+    "name": "John Doe",
+    "transactionId": "TXN-947675",
+    "transactionInDollar": 51,
+    "transactionDateAndTime": "24-03-2026 10:30:15"
+}
+
+{
+    "name": "John Doe",
+    "transactionId": "TXN-947655",
+    "transactionInDollar": 351,
+    "transactionDateAndTime": "25-03-2026 12:30:15"
+}
+
+### Customer: John Baskin
+```json
+{
+    "name": "John Baskin",
+    "transactionId": "TXN-947654",
+    "transactionInDollar": 351,
+    "transactionDateAndTime": "31-04-2026 22:30:46"
+}
+
+{
+    "name": "John Baskin",
+    "transactionId": "TXN-9476547",
+    "transactionInDollar": 51,
+    "transactionDateAndTime": "03-02-2026 10:30:15"
+}
+
+{
+    "name": "John Baskin",
+    "transactionId": "TXN-9476547",
+    "transactionInDollar": 51,
+    "transactionDateAndTime": "03-02-2026 10:30:15"
+}
+
+{
+    "name": "John Baskin",
+    "transactionId": "TXN-9476547",
+    "transactionInDollar": 257,
+    "transactionDateAndTime": "09-02-2026 19:30:15"
+}
