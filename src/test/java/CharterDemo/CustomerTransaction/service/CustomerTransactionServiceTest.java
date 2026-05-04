@@ -1,39 +1,28 @@
-package CharterDemo.CustomerTranscationCal.service;
+package CharterDemo.CustomerTransaction.service;
 
-import CharterDemo.CustomerTranscationCal.DTO.CustomerCompositeKeyDTO;
-import CharterDemo.CustomerTranscationCal.DTO.CustomerDTO;
-import CharterDemo.CustomerTranscationCal.DTO.CustomerRewardDetailsDTO;
-import CharterDemo.CustomerTranscationCal.entity.Customer;
-import CharterDemo.CustomerTranscationCal.keys.CustomerCompositeKey;
-import CharterDemo.CustomerTranscationCal.repository.CustomerRepos;
+import CharterDemo.CustomerTransaction.DTO.CustomerCompositeKeyDTO;
+import CharterDemo.CustomerTransaction.DTO.CustomerDTO;
+import CharterDemo.CustomerTransaction.DTO.CustomerRewardDetailsDTO;
+import CharterDemo.CustomerTransaction.entity.Customer;
+import CharterDemo.CustomerTransaction.keys.CustomerCompositeKey;
+import CharterDemo.CustomerTransaction.repository.CustomerRepos;
 import static org.mockito.Mockito.*;
 
-import CharterDemo.CustomerTranscationCal.util.TransactionNotFoundException;
-import org.junit.jupiter.api.Assertions;
+import CharterDemo.CustomerTransaction.util.TransactionNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.CsvSources;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 

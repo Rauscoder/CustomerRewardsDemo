@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTranscationCal.GlobalExceptionHandler;
+package CharterDemo.CustomerTransaction.GlobalExceptionHandler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
-import CharterDemo.CustomerTranscationCal.util.TransactionNotFoundException;
+import CharterDemo.CustomerTransaction.util.TransactionNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,7 +1,7 @@
-package CharterDemo.CustomerTranscationCal.repository;
+package CharterDemo.CustomerTransaction.repository;
 
-import CharterDemo.CustomerTranscationCal.entity.Customer;
-import CharterDemo.CustomerTranscationCal.keys.CustomerCompositeKey;
+import CharterDemo.CustomerTransaction.entity.Customer;
+import CharterDemo.CustomerTransaction.keys.CustomerCompositeKey;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

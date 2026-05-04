@@ -1,10 +1,10 @@
-package CharterDemo.CustomerTranscationCal;
+package CharterDemo.CustomerTransaction;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CustomerTranscationCalApplicationTests {
+class CustomerTransactionApplicationTests {
 
 	@Test
 	void contextLoads() {

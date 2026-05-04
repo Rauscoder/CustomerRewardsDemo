@@ -1,13 +1,13 @@
-package CharterDemo.CustomerTranscationCal;
+package CharterDemo.CustomerTransaction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CustomerTranscationCalApplication {
+public class CustomerTransactionApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CustomerTranscationCalApplication.class, args);
+		SpringApplication.run(CustomerTransactionApplication.class, args);
 	}
 
 }

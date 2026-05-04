@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTranscationCal.DTO;
+package CharterDemo.CustomerTransaction.DTO;
 
 
 

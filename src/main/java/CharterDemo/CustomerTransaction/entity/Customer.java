@@ -1,7 +1,7 @@
-package CharterDemo.CustomerTranscationCal.entity;
+package CharterDemo.CustomerTransaction.entity;
 
 import jakarta.persistence.*;
-import CharterDemo.CustomerTranscationCal.keys.CustomerCompositeKey;
+import CharterDemo.CustomerTransaction.keys.CustomerCompositeKey;
 import lombok.*;
 
 import java.time.LocalDateTime;

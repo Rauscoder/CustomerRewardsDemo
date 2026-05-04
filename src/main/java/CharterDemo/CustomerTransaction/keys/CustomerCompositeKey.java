@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTranscationCal.keys;
+package CharterDemo.CustomerTransaction.keys;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;

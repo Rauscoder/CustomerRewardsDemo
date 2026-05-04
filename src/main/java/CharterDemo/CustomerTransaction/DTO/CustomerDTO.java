@@ -1,16 +1,11 @@
-package CharterDemo.CustomerTranscationCal.DTO;
+package CharterDemo.CustomerTransaction.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.NotFound;
-import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 

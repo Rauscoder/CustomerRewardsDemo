@@ -1,14 +1,14 @@
-package CharterDemo.CustomerTranscationCal.controller;
+package CharterDemo.CustomerTransaction.controller;
 
-import CharterDemo.CustomerTranscationCal.DTO.CustomerCompositeKeyDTO;
-import CharterDemo.CustomerTranscationCal.DTO.CustomerDTO;
+import CharterDemo.CustomerTransaction.DTO.CustomerCompositeKeyDTO;
+import CharterDemo.CustomerTransaction.DTO.CustomerDTO;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import CharterDemo.CustomerTranscationCal.service.CustomerTransactionService;
-import CharterDemo.CustomerTranscationCal.DTO.CustomerRewardDetailsDTO;
+import CharterDemo.CustomerTransaction.service.CustomerTransactionService;
+import CharterDemo.CustomerTransaction.DTO.CustomerRewardDetailsDTO;
 
 import java.util.List;
 @Slf4j
