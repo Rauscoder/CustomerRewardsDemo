@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTransaction;
+package charterDemo.customerTransaction;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

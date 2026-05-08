@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTransaction.util;
+package charterDemo.customerTransaction.exception;
 
 public class TransactionNotFoundException extends RuntimeException{
     public TransactionNotFoundException(String message){

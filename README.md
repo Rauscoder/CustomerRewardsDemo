@@ -1,7 +1,7 @@
 # Customer Transaction Reward Points Calculator
 
 ## Project Overview
-This project is a RESTful Web API built using **Spring Boot** that calculates reward points for a retailer's customers based on their transaction history. The system processes transaction data over a three-month period to determine points earned per month and the cumulative total for each customer.
+This project is a RESTful Web API built using **Spring Boot** that calculates reward points for a retailer's customerTransactions based on their transaction history. The system processes transaction data over a three-month period to determine points earned per month and the cumulative total for each customer.
 
 ## Reward Logic
 The application follows a specific scoring algorithm for points awarded per transaction:

@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTransaction;
+package charterDemo.customerTransaction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

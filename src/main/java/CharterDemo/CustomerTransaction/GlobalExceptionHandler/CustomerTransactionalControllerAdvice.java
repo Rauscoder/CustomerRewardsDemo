@@ -1,5 +1,6 @@
-package CharterDemo.CustomerTransaction.GlobalExceptionHandler;
+package charterDemo.customerTransaction.globalExceptionHandler;
 
+import charterDemo.customerTransaction.DTO.JSONErrorResponseDTO;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
-import CharterDemo.CustomerTransaction.util.TransactionNotFoundException;
+import charterDemo.customerTransaction.exception.TransactionNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,92 +22,94 @@ public class CustomerTransactionalControllerAdvice {
 
     // Handles JSON Mismatches (Type,Format,Mismatched Fields)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<Map<String, String>> handleJsonErrors(HttpMessageNotReadableException ex) {
+    public ResponseEntity<JSONErrorResponseDTO> handleJsonErrors(HttpMessageNotReadableException ex) {
+        JSONErrorResponseDTO jsonErrorResponseDTO =new JSONErrorResponseDTO();
+
         Map<String, String> message = new HashMap<>();
-        message.put("error", "Malformed JSON request");
+        message.put("Error", "Malformed JSON request");
 
         if (ex.getCause() instanceof InvalidFormatException) {
-            message.put("details", "Data type mismatch or invalid date format(valid date format -dd-MM-yyyy HH:mm:ss)--"+ex.getMessage());
+            message.put("Error Reason", "Data type mismatch or invalid date format(valid date format -dd-MM-yyyy HH:mm:ss)--"+ex.getMessage());
             log.error("Error caused due to JSON Mismatches of data type and invalid date format handled by handleJsonErrors() inside CustomerTransactionalControllerAdvice-",ex.getCause());
             log.info("Error message caused due to InvalidFormatException--{}",ex.getMessage());
         } else if (ex.getCause() instanceof UnrecognizedPropertyException) {
-            message.put("details", "JSON contains unknown fields. or ExtraFields--"+ex.getMessage());
+            message.put("Error Reason", "JSON contains unknown fields. or ExtraFields--"+ex.getMessage());
             log.error("Error caused due to unknown or extra properties present in JSON payload handled by handleJsonErrors() inside CustomerTransactionalControllerAdvice-",ex.getCause());
             log.info("Error message caused due to UnrecognizedPropertyException--{}",ex.getMessage());
         }
-
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+       jsonErrorResponseDTO.setErrorResponse(message);
+        return new ResponseEntity<>(jsonErrorResponseDTO, HttpStatus.BAD_REQUEST);
     }
 
- /*   // Handles JSON Mismatches (Type,Format,Mismatched Fields)
-    @ExceptionHandler(InvalidFormatException.class)
-    public ResponseEntity<Map<String,String>> handleJsonFormatErrors(InvalidFormatException ex){
-        Map<String,String> message=new HashMap<>();
-        message.put("Error Message ",  "Invalid Date Format Kindly use DD-MM-YYYY HR:MIN:SEC format");
-
-
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
-
-    // Handles JSON Mismatches (Type,Format,Mismatched Fields)
-    @ExceptionHandler(UnrecognizedPropertyException.class)
-    public ResponseEntity<Map<String,String>> handleJsonMismatchErrors(UnrecognizedPropertyException ex){
-        Map<String,String> message=new HashMap<>();
-
-        message.put("Error Message For Mismatched Fields",  ex.getMessage());
-
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
-*/
     // Handles JSON Field validation  (Used For @NotNull,@NotBlank,@Size,@Pattern)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> handleJSONFieldNullValidation(MethodArgumentNotValidException ex){
+    public ResponseEntity<JSONErrorResponseDTO> handleJSONFieldNullValidation(MethodArgumentNotValidException ex){
+        JSONErrorResponseDTO jsonErrorResponseDTO =new JSONErrorResponseDTO();
         Map<String,String> message=new HashMap<>();
-        message.put("error", "Malformed JSON request");
-        message.put("Error Message For JSON Field validation",ex.getBindingResult().toString());
+        message.put("Error", "Malformed JSON request");
+        message.put("Error Reason",ex.getBindingResult().toString());
         log.error("Error caused due to JSON Field Validation(like null,size,pattern etc) format handled by handleJSONFieldNullValidation() inside CustomerTransactionalControllerAdvice---",ex);
         log.info("Error Message caused due to MethodArgumentNotValidException--{}",ex.getMessage());
-        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+        jsonErrorResponseDTO.setErrorResponse(message);
+        return new ResponseEntity<>(jsonErrorResponseDTO,HttpStatus.BAD_REQUEST);
     }
 
     // Handles DataType Mismatch For URL variable Mapping into Java object inside a Method Argument
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Map<String,String>> handlesPathVariableTypeMismatch(MethodArgumentTypeMismatchException ex){
+    public ResponseEntity<JSONErrorResponseDTO> handlesPathVariableTypeMismatch(MethodArgumentTypeMismatchException ex){
+        JSONErrorResponseDTO jsonErrorResponseDTO =new JSONErrorResponseDTO();
         Map<String,String> message=new HashMap<>();
-        message.put("Error Message DataType Mismatch For URL variable Mapping", ex.getName()+"--"+ex.getParameter()+"--"+ex.getMessage());
+        message.put("Error", "Invalid Request param ");
+        message.put("Error Reason",ex.getMessage());
         log.error("Error caused due to dataType mismatch For URL variable mapping into Java object handled by handlesPathVariableTypeMismatch() inside CustomerTransactionalControllerAdvice-",ex.getCause());
+        jsonErrorResponseDTO.setErrorResponse(message);
         log.info("Error message caused due to MethodArgumentTypeMismatchException--{}",ex.getMessage());
-        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(jsonErrorResponseDTO,HttpStatus.BAD_REQUEST);
     }
 
     //Handles the transaction which we are saving already exists in DB
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<Map<String,String>> handlesAlreadyExistingTransaction(ResponseStatusException ex)
+    public ResponseEntity<JSONErrorResponseDTO> handlesResponseStatusException(ResponseStatusException ex)
     {
+        JSONErrorResponseDTO jsonErrorResponseDTO =new JSONErrorResponseDTO();
         Map<String,String> message=new HashMap<>();
-        message.put("Error Message For Already Existed Customer", ex.getMessage());
-        log.info("Error message caused due to ResponseStatusException handled by handlesAlreadyExistingTransaction() inside a CustomerTransactionalControllerAdvice-{}",ex.getMessage());
-        return new ResponseEntity<>(message,HttpStatus.CONFLICT);
+        message.put("Error", "Invalid startDate or endDate ");
+        message.put("Error Reason", ex.getMessage());
+        log.info("Error message caused due to ResponseStatusException handled by handlesResponseStatusException() inside a CustomerTransactionalControllerAdvice-{}",ex.getMessage());
+        jsonErrorResponseDTO.setErrorResponse(message);
+
+        return new ResponseEntity<>(jsonErrorResponseDTO,ex.getStatusCode());
     }
 
-    //Handles transaction not found when handling request for GET/DELETE
+    //Handles transaction not found when handling request for GET
     @ExceptionHandler(TransactionNotFoundException.class)
-    public ResponseEntity<Map<String,String>> handleTransactionNotFound(TransactionNotFoundException ex)
+    public ResponseEntity<JSONErrorResponseDTO> handleTransactionNotFound(TransactionNotFoundException ex)
     {
+        JSONErrorResponseDTO jsonErrorResponseDTO =new JSONErrorResponseDTO();
         Map<String,String> message=new HashMap<>();
-        message.put("Error Message for TransactionNotFound", ex.getMessage());
+        message.put("Error", "Transaction not found for given request ");
+        message.put("Error Reason", ex.getMessage());
         log.info("Error message caused due to TransactionNotFoundException handled by handleTransactionNotFound() inside a CustomerTransactionalControllerAdvice-{}",ex.getMessage());
-        return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
+        jsonErrorResponseDTO.setErrorResponse(message);
+        return new ResponseEntity<>(jsonErrorResponseDTO,HttpStatus.NOT_FOUND);
     }
 
     //Handles Runtime exception
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String,String>> handleRunTimeException(RuntimeException ex)
+    public ResponseEntity<JSONErrorResponseDTO> handleRunTimeException(RuntimeException ex)
     {
+        JSONErrorResponseDTO jsonErrorResponseDTO =new JSONErrorResponseDTO();
         Map<String,String> message=new HashMap<>();
-        message.put("Error Message For RunTimeException", "Internal Server Error");
+        message.put("Error", "Run time errors ");
+        message.put("Error Reason", "Internal Server Error");
         log.error("Error caused due to RunTimeException handled by handleRunTimeException() inside CustomerTransactionalControllerAdvice-",ex);
         log.info("Error message caused due to RunTimeException--{}",ex.getMessage());
-        return new ResponseEntity<>(message,HttpStatus.INTERNAL_SERVER_ERROR);
+        jsonErrorResponseDTO.setErrorResponse(message);
+        return new ResponseEntity<>(jsonErrorResponseDTO,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
+
+
+
+
+

@@ -1,4 +1,4 @@
-package CharterDemo.CustomerTransaction.DTO;
+package charterDemo.customerTransaction.DTO;
 
 
 
@@ -10,37 +10,28 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerRewardDetailsDTO {
 
     @NotBlank(message = "name can not be null")
-    @Size(min = 5, message= "name must be at least 5 characters long")
+    @Size(min = 3, message= "name must be at least 3 characters long")
     @Pattern(regexp = "^[a-zA-Z ]*$", message = "name must be a string of letters")
-    private String name;
+    private String customerName;
+
+    @NotBlank(message = "customerTransactionId can not be null")
+    @Size(min = 5, message= "customerTransactionId must be at least 5 characters long")
+    private String customerTransactionId;
 
     @NotNull(message="rewardPerMonth can not be null")
-    private Double rewardPerMonth;   //for calculating Reward per month
+    private Map<String,BigDecimal> rewardPerMonth;   //for calculating Reward per month
 
-    private Long totalReward=(long)0;       //for calculating total Reward during 3 month period
-
-    public Double getRewardPerMonth() {
-        String result=String.format("%.3f",rewardPerMonth);
-        return Double.parseDouble(result);
-    }
-
-    public void setRewardPerMonth(Long totalReward) {
-        rewardPerMonth = (totalReward/3.0);
-    }
-
-    public Long getTotalReward() {
-        return totalReward;
-    }
-
-    public void setTotalReward(Long totalReward) {
-        this.totalReward +=totalReward;
-    }
-
+    @NotNull(message="totalReward can not be null")
+    private BigDecimal totalReward;       //for calculating total Reward during 3 month period
 
 }
