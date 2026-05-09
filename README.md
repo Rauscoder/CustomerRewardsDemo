@@ -8,36 +8,42 @@ The application follows a specific scoring algorithm for points awarded per tran
 * **2 points** for every dollar spent over **$100**.
 * **1 point** for every dollar spent between **$50 and $100**.
 * *Example:* A **$120** purchase calculates as:
-    * $(2 \times \$20 \text{ [amount over \$100]}) + (1 \times \$50 \text{ [amount between \$50 and \$100]}) = \mathbf{90 \text{ points}}$.
+  * $(2 times \$20 [amount over \$100]) + (1 times \$50  [amount between \$50 and \$100]) = 90 points\$
 
 ## Technical Stack
-* **Java 8/17**
-* **Spring Boot 3.x**
-* **Spring Data JPA** (H2 File Based Database for persistant storage)
+* **Java 21**
+* **Spring Boot 3.5.40**
+* **Spring Data JPA** (H2 In Memory Based Database )
 * **Maven** (Project Management)
 * **JUnit 5 & Mockito** (Testing)
 
+## Database Initialization
+The project is configured to automatically populate the H2 in-memory database upon startup. The following scripts are located in src/main/resources:
+
+* **customerTransaction-table.sql: Defines the database schema and table structure**
+* **customerTransaction-data.sql: Populates the tables with initial customer and transaction records for testing**
+
 ## Key Features & Requirements Met
-* **RESTful Endpoints:** Provides scalable APIs to fetch reward details dynamically based on customer and timeframes.
+* **RESTful Endpoints:** Provides scalable APIs to fetch reward details dynamically based on customerId and timeframes.
 * **Global Exception Handling:** Implemented via `CustomerTransactionControllerAdvice` to handle errors gracefully.
 * **Input Validation:** Ensures all incoming data meets technical and business constraints.
 * **Clean Architecture:** Follows a standard 3-tier architecture (Controller -> Service -> Repository) with DTOs for data transfer.
-* **Automated Testing:** Includes comprehensive unit tests in `CustomerTransactionServiceTest` to verify reward logic across multiple scenarios.
+* **Automated Testing:** Includes comprehensive unit tests in `TransactionServiceTest` to verify reward logic across multiple scenarios.
 
 ## Getting Started
 
 ### Prerequisites
-* JDK 8 or higher (JDK 21 recommended)
+* JDK 21 or higher 
 * Maven 3.6+
 
 ### Installation & Running
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YourUsername/CustomerRewardsDemo.git](https://github.com/YourUsername/CustomerRewardsDemo.git)
+    git clone https://github.com/YourUsername/CustomerRewardsDemo.git
     ```
 2.  **Navigate to the project directory:**
     ```bash
-    cd CustomerTransaction
+    cd customerTransaction
     ```
 3.  **Build the project:**
     ```bash
@@ -54,72 +60,94 @@ The application follows a specific scoring algorithm for points awarded per tran
 ## API Usage
 
 ### 1. Calculate Rewards for a Customer
-**Endpoint:** `GET /api/rewards/{customerId}`
-**Description:** Fetches the monthly and total reward points for a specific customer over the last 3 months.
+**Endpoint:** `GET /getRewardsByCustomer/{customerId}`
+**Description:** Fetches the monthly and total reward points for a specific customer with customerId over the given time frame.
+
+Example Request
+ * **GET: /getRewardsByCustomer/Baskin1234?startDate=01-04-2025 00:00:00&endDate=30-04-2026 23:59:59**
+
+Example Response in Json Format
+````json
+{
+    "customerName": "John Baskin",
+    "customerTransactionId": "Baskin1234",
+    "rewardPerMonth": {
+        "APRIL-2025": 152.00,
+        "JULY-2025": 152.00,
+        "JANUARY-2026": 1.00,
+        "MARCH-2026": 352.00
+    },
+    "totalReward": 657.00
+}
+````
+
+### 🧪 Sample Data Payloads
+Based on the customerTransaction-data.sql configuration, the following transactions represent the data for John Baskin (ID: Baskin1234) :
+
+**Sample Data for John Baskin(CustomerId:Baskin1234) for which we are requesting to fetch rewards details** :
+````json
+{
+  "customerId": "Baskin1234",
+  "customerName": "John Baskin",
+  "transactionId": "TXN1-947654",
+  "transactionInDollar": 151.0,
+  "transactionDateTime": "01-04-2025 22:30:46"
+}
+````
+````json
+{
+  "customerId": "Baskin1234",
+  "customerName": "John Baskin",
+  "transactionId": "TXN-9476547",
+  "transactionInDollar": 151.0,
+  "transactionDateTime": "09-07-2025 19:30:15"
+}
+````
+````json
+{
+  "customerId": "Baskin1234",
+  "customerName": "John Baskin",
+  "transactionId": "TXN1-9476547",
+  "transactionInDollar": 51.0,
+  "transactionDateTime": "03-01-2026 00:00:00"
+}
+````
+````json
+{
+  "customerId": "Baskin1234",
+  "customerName": "John Baskin",
+  "transactionId": "TXN1-9476543",
+  "transactionInDollar": 251.0,
+  "transactionDateTime": "31-03-2026 23:59:59"
+}
+
+````
 
 ## Project Structure
 ```text
-src/main/java/CharterDemo/CustomerTransaction/
-├── controller/             # REST Controller for handling API requests
-├── service/                # Business logic for points calculation
-├── repository/             # JPA Repository for H2 database access
-├── entity/                 # Database entities (Customer, Transactions)
-├── DTO/                    # Data Transfer Objects for API responses
-├── GlobalExceptionHandler/ # Centralized error handling (CustomerTransactionControllerAdvice)
-└── util/                   # Custom exceptions and utilities
+customerTransaction/
+├── src/main/java/charterDemo/customerTransaction/
+│   ├── controller/             # REST API Controllers
+│   ├── DTO/                    # Data Transfer Objects
+│   ├── entity/                 # Database Entity classes
+│   ├── exception/              # Custom Business Exceptions
+│   ├── globalExceptionHandler/ # Centralized Exception Handling Logic
+│   ├── repository/             # JPA Repositories for Database access
+│   ├── service/                # Business Logic layer
+│   └── CustomerTransactionApplication.java
+├── src/main/resources/
+│   ├── static/                 # Static assets
+│   ├── templates/              # View templates
+│   ├── application.properties  # App configuration
+│   ├── customerTransaction-data.sql
+│   └── customerTransaction-table.sql
+├── src/test/java/charterDemo/customerTransaction/
+│   ├── controller/             # Controller layer unit tests
+│   │   └── TransactionControllerTest.java
+│   ├── service/                # Service layer unit tests
+│   │   └── TransactionServiceTest.java
+│   └── CustomerTransactionApplicationTests.java
+├── pom.xml                     # Maven dependencies
+└── README.md
 
-## 🧪 Sample Test Data (Postman)
-You can use the following JSON payloads to populate your database via your POST endpoint:
 
-### Customer: John Doe
-```json
-{
-    "name": "John Doe",
-    "transactionId": "TXN-847675",
-    "transactionInDollar": 751,
-    "transactionDateAndTime": "24-03-2025 20:30:15"
-}
-
-{
-    "name": "John Doe",
-    "transactionId": "TXN-947675",
-    "transactionInDollar": 51,
-    "transactionDateAndTime": "24-03-2026 10:30:15"
-}
-
-{
-    "name": "John Doe",
-    "transactionId": "TXN-947655",
-    "transactionInDollar": 351,
-    "transactionDateAndTime": "25-03-2026 12:30:15"
-}
-
-### Customer: John Baskin
-```json
-{
-    "name": "John Baskin",
-    "transactionId": "TXN-947654",
-    "transactionInDollar": 351,
-    "transactionDateAndTime": "31-04-2026 22:30:46"
-}
-
-{
-    "name": "John Baskin",
-    "transactionId": "TXN-9476547",
-    "transactionInDollar": 51,
-    "transactionDateAndTime": "03-02-2026 10:30:15"
-}
-
-{
-    "name": "John Baskin",
-    "transactionId": "TXN-9476547",
-    "transactionInDollar": 51,
-    "transactionDateAndTime": "03-02-2026 10:30:15"
-}
-
-{
-    "name": "John Baskin",
-    "transactionId": "TXN-9476547",
-    "transactionInDollar": 257,
-    "transactionDateAndTime": "09-02-2026 19:30:15"
-}

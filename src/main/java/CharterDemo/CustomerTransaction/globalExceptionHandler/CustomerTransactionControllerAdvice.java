@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
-public class CustomerTransactionalControllerAdvice {
+public class CustomerTransactionControllerAdvice {
 
     // Handles JSON Mismatches (Type,Format,Mismatched Fields)
     @ExceptionHandler(HttpMessageNotReadableException.class)
