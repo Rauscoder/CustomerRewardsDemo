@@ -8,7 +8,7 @@ The application follows a specific scoring algorithm for points awarded per tran
 * **2 points** for every dollar spent over **$100**.
 * **1 point** for every dollar spent between **$50 and $100**.
 * *Example:* A **$120** purchase calculates as:
-  * $(2 times \$20 [amount over \$100]) + (1 times \$50  [amount between \$50 and \$100]) = 90 points\$
+  * $(2 times \$20 [amount over \$100]) + (1 times \$50  [amount between \$50 and \$100]) = 90 points$
 
 ## Technical Stack
 * **Java 21**
